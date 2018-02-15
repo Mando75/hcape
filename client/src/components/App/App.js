@@ -1,7 +1,7 @@
 import React from 'react';
-import {Layout} from 'antd';
+import {Layout, Icon} from 'antd';
 import {Nav} from "../Nav/Nav";
-const {Header, Footer, Content} = Layout;
+const {Footer, Content} = Layout;
 
 
 export class App extends React.Component {
@@ -9,16 +9,15 @@ export class App extends React.Component {
   render() {
     return (
         <Layout style={{minHeight: '100vh'}}>
-          <Nav/>
-          <Layout>
-            {/*<Header style={{ background: '#fff', padding: 0 }} />*/}
+          <Nav name={'Bryan'}/>
+          <Layout style={{background: '#234D75'}}>
             <Content style={{ margin: '24px 16px 0' }}>
-              <div style={{ padding: 24, background: '#fff', minHeight: '90vh' }}>
+              <div style={{ padding: 24, background: '#001529', minHeight: '90vh' }}>
                 content
               </div>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-              Ant Design ©2016 Created by Ant UED
+            <Footer style={{ textAlign: 'center', background: '#234D75'}}>
+              <Icon type="copyright" /> 2018 Brigham Young University - Idaho
             </Footer>
           </Layout>
         </Layout>
