@@ -8,8 +8,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', (req, res) => {
-  res.json({title: "Homepage", message: "This is the root api endpoint"})
+app.use('/', (req, res, next) => {
+  const err = new Error('Bad Request: All requests must use the "/api/" endpoint');
+  err.status = 401;
+  next(err);
 });
 
 // catch 404 and forward to error handler
