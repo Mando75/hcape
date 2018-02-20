@@ -4,9 +4,10 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon --exec yarn run babel-node ./bin/www"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "~1.18.2",
     "debug": "~2.6.9",
     "express": "~4.15.5",
@@ -15,6 +16,8 @@
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
     "nodemon": "^1.15.0"
   }
 }

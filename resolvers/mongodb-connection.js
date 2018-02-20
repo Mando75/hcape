@@ -1,5 +1,12 @@
 import {MongoClient} from 'mongodb';
-const assert = require('assert');
 
-const url = process.env.DATABASE_URL;
-export const db = async () => await MongoClient.connect(url);
+export async function connectToDb(collName = 'test', dbName = 'qe') {
+  const url = process.env.DATABASE_URL;
+  try {
+    const client = await MongoClient.connect(url);
+    return client.db(dbName).collection(collName);
+  } catch (e) {
+    console.error('Warning: Connection to Database failed', e);
+  }
+}
+
