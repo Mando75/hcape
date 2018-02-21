@@ -1,5 +1,19 @@
+.user-root h1 {
+  font-size: 3em;
+  margin: auto;
+  color: #fff;
+  font-weight: lighter;
+  border-bottom: 1px #fff solid;
+  text-align: center;
+}
+.user-root p {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 2em;
+  font-weight: lighter;
+}
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Roboto' sans-serif;
 }
