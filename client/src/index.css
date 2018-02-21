@@ -12,6 +12,9 @@
   font-size: 2em;
   font-weight: lighter;
 }
+.user-root button {
+  margin: 5px;
+}
 body {
   margin: 0;
   padding: 0;
