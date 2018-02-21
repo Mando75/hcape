@@ -1,5 +1,6 @@
 import React from 'react';
 import {Menu, Icon, Layout} from 'antd';
+import {Link} from 'react-router-dom';
 
 const {Sider} = Layout;
 
@@ -38,26 +39,36 @@ export class Nav extends React.Component {
         >
           <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
             <Menu.Item key="1">
-              <Icon type="user"/>
-              <span className="nav-text">{this.props.name}</span>
+              <Link to={'/s/'}>
+                <Icon type="user"/>
+                <span className="nav-text">{this.props.name}</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2">
-              <Icon type="idcard"/>
-              <span className="nav-text">Current Evaluations</span>
+              <Link to={'/s/curreval'}>
+                <Icon type="idcard"/>
+                <span className="nav-text">Current Evaluations</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="database"/>
-              <span className="nav-text">Past Evaluations</span>
+              <Link to={'/s/pasteval'}>
+                <Icon type="database"/>
+                <span className="nav-text">Past Evaluations</span>
+              </Link>
             </Menu.Item>
             {
               this.state.role === 'student' ?
                   <Menu.Item key="4">
-                    <Icon type="line-chart"/>
-                    <span className="nav-text">Track Your Progress</span>
+                    <Link to={'/s/track'}>
+                      <Icon type="line-chart"/>
+                      <span className="nav-text">Track Your Progress</span>
+                    </Link>
                   </Menu.Item> :
                   <Menu.Item key="4">
-                    <Icon type="plus-circle-o"/>
-                    <span className="nav-text">Import a Survey</span>
+                    <Link to={'/t/import'}>
+                      <Icon type="plus-circle-o"/>
+                      <span className="nav-text">Import a Survey</span>
+                    </Link>
                   </Menu.Item>
             }
           </Menu>
