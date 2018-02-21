@@ -1,8 +1,8 @@
 const express = require('express');
 const  logger = require('morgan');
 const bodyParser = require('body-parser');
-
 const app = express();
+import {router as apiRoot} from "./routes/api-root";
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -13,6 +13,8 @@ app.use('/', (req, res, next) => {
   err.status = 401;
   next(err);
 });
+
+app.use('/api', apiRoot);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
