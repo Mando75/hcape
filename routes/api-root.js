@@ -1,7 +1,13 @@
-import {Router} from 'express';
-const router = Router;
+const express =  require('express');
+const router = express.Router()
+
 router.get('/', (req, res, next) => {
-  res.json({ message: 'api root'});
+  console.log('api-root');
+  const message = {
+    message: 'api root'
+  };
+
+  res.json(message);
 });
 
 

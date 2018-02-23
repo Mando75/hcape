@@ -20,5 +20,6 @@
     "create-react-app-stylus": "^1.1.1"
   },
   "proxy": "http://localhost:3001",
-  "license": "UNLISCENSED"
+  "license": "UNLISCENSED",
+  "homepage": ""
 }

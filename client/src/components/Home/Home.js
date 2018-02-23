@@ -1,8 +1,8 @@
 import React from 'react';
 import {Row, Col, Button} from 'antd';
 
-export const User = (props) => {
-  return (
+export const Home = (props) => {
+    return (
       <div className={'user-root'}>
         <Row justify={'center'}>
           <Col span={24}>
@@ -26,7 +26,7 @@ export const User = (props) => {
             <Button type={'secondary'}
                     icon={'home'}
                     size={'large'}
-                    htmlType={'a'}
+                    htmlType={'button'}
                     target={'_self'}
                     href={'https://www.byui.edu'}>
               BYU-I&nbsp;&nbsp;
