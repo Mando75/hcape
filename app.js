@@ -5,11 +5,15 @@ const app = express();
 const path = require('path');
 import {router as apiRoot} from "./routes/api-root";
 
-
-app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+
+app.use('/', (req, res) => {
+  console.log(req);
+  res.sendFile(__dirname + '/client/build/index.html');
+});
 
 app.use('/api', apiRoot);
 app.use('/s', (req, res)=> {
