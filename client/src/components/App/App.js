@@ -1,17 +1,11 @@
 import React from 'react';
-import {Layout, Icon, Button} from 'antd';
+import {Layout, Icon} from 'antd';
 import {Nav} from "../Nav/Nav";
 import {Switch, Route} from 'react-router-dom';
 import {Home} from "../Home/Home";
 const {Footer, Content} = Layout;
 
 export class App extends React.Component {
-
-  fetchData = () => {
-    fetch('/api')
-        .then(res => res.json())
-        .then(data => console.log(data));
-  };
 
   render() {
     return (

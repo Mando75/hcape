@@ -48,13 +48,13 @@ class NavClass extends React.Component {
             <Menu.Item key="/s/curreval" >
               <Link to={'/s/curreval'}>
                 <Icon type="idcard"/>
-                <span className="nav-text">Current Evaluations</span>
+                <span className="nav-text">Current Semester</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="/s/pasteval" >
               <Link to={'/s/pasteval'}>
                 <Icon type="database"/>
-                <span className="nav-text">Past Evaluations</span>
+                <span className="nav-text">Past Semester</span>
               </Link>
             </Menu.Item>
             {
