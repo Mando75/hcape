@@ -1,5 +1,6 @@
-const express =  require('express');
-const router = express.Router()
+import express from 'express';
+const router = express.Router();
+import {router as s} from './s';
 
 router.get('/', (req, res, next) => {
   console.log('api-root');
@@ -10,6 +11,12 @@ router.get('/', (req, res, next) => {
   res.json(message);
 });
 
+router.post('/login', (req, res) => {
+
+});
+
+
+router.use('/s', s);
 
 export {router}
 
