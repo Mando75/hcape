@@ -1,5 +1,3 @@
-import * as jwt from 'jsonwebtoken'
-import {Passport} from 'passport'
 import {ExtractJwt, Strategy} from 'passport-jwt';
 
 export const jwtOptions = {

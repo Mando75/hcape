@@ -1,6 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import {router as s} from './s';
+import {auth} from "./auth/auth";
 
 router.get('/', (req, res, next) => {
   console.log('api-root');
@@ -11,10 +12,7 @@ router.get('/', (req, res, next) => {
   res.json(message);
 });
 
-router.post('/login', (req, res) => {
-
-});
-
+router.use('/auth', auth)
 
 router.use('/s', s);
 
