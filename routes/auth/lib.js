@@ -1,3 +1,5 @@
+import {studentLogin} from "../../resolvers/auth/student-login";
+
 /**
  * Extracts login params from req body.
  * If one or more of the keys is undefined
@@ -17,6 +19,25 @@ export const extractLoginData = (body) => {
 };
 
 export const loginMap = {
-  student: () => console.log('student'),
+  student: studentLogin,
   teacher: () => console.log('teacher')
 };
+
+import * as jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import {jwtOptions} from "./strategy";
+
+export async function verifyPwd(user, hash) {
+  if(await bcrypt.compare(user.pwd, hash)) {
+    const payload = buildTokenPayload(user);
+    const token = jwt.sign(payload, jwtOptions.secretOrKey, {expiresIn: '7d'});
+    return {message: 'login successful', status: 200, token: token}
+  }
+  return {message: 'Passwords did not match', status: 401}
+}
+
+
+function buildTokenPayload(user) {
+  delete user.pwd;
+  return user;
+}

@@ -12,7 +12,7 @@ router.get('/', (req, res, next) => {
   res.json(message);
 });
 
-router.use('/auth', auth)
+router.use('/auth', auth);
 
 router.use('/s', s);
 
