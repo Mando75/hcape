@@ -1,4 +1,5 @@
 const express = require('express');
+const expressValidator = require('express-validator');
 const  logger = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
@@ -8,6 +9,7 @@ import {router as apiRoot} from "./routes/api-root";
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(expressValidator());
 app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 

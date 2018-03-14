@@ -18,6 +18,20 @@ export const extractLoginData = (body) => {
   }
 };
 
+export const extractAccountData = (body) => {
+  try {
+    return {
+      username: body.username,
+      pwd: body.pwd,
+      confirmPwd: body.confirmPwd,
+      email: body.email,
+      inumber: body.inumber
+    }
+  } catch (e) {
+      return null;
+  }
+};
+
 export const loginMap = {
   student: studentLogin,
   teacher: () => console.log('teacher')
