@@ -1,11 +1,11 @@
 import {connectToDb} from "../mongodb-connection";
 import {hashPwd} from "../../routes/auth/lib";
-const sanitize = require('sanitizer');
+const sanitize = require('sanitizer').sanitize;
 
 export async function createStudent(data) {
   const query = await buildQuery(data);
-  const conn = await connectToDb();
-  const opp = conn.insertOne(query);
+  const conn = await connectToDb('student');
+  const opp = await conn.insertOne(query);
   console.log(opp);
   return opp;
 }
