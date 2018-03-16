@@ -1,5 +1,6 @@
 import express from 'express';
 import {extractAccountData, extractLoginData, loginMap} from "./lib";
+import {createStudent} from "../../resolvers/auth/create-student";
 
 const {check, validationResult} = require('express-validator/check');
 
@@ -54,9 +55,9 @@ auth.post('/create',
         pwd.match(/[!@#$%&/=?_.,:;-\\]+/).length > 2
       )
     }).withMessage('Passwords must be a minimum of 8 characters and contain 3 of the following types of characters: lower-case letters, numbers, upper-case letters, symbols or special characters'),
-    check('confirmPwd').exists(),
     check('email').exists().isEmail().trim().normalizeEmail().matches(/@byui.edu/).withMessage('Must use BYU-Idaho email'),
     check('inumber').exists().isLength({min: 9, max: 9}).withMessage('must be 9 digits'),
+    check('type').exists().isIn(validRoles),
     async (req, res) => {
       // check for validation errors
       const errors = validationResult(req);
@@ -69,8 +70,8 @@ auth.post('/create',
       }
 
       const accountData = extractAccountData(req.body);
-      console.log(accountData);
-      res.json(accountData)
+      const opp = createStudent(accountData);
+      res.json(opp);
     });
 
 export {auth};

@@ -1172,6 +1172,16 @@ expand-range@^1.8.1:
   dependencies:
     fill-range "^2.1.0"
 
+express-mongo-sanitize@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/express-mongo-sanitize/-/express-mongo-sanitize-1.3.2.tgz#fba404f6c041577cbeeec4dd9057cefbb439de5a"
+
+express-sanitizer@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/express-sanitizer/-/express-sanitizer-1.0.3.tgz#ce78a1c6cec78b9d0c5525ff75ec68c47411ad10"
+  dependencies:
+    sanitizer "0.1.3"
+
 express-validator@^5.0.2:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/express-validator/-/express-validator-5.0.2.tgz#c857213158cdd2a6252fadfb3427921007f0db60"
@@ -2745,6 +2755,10 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/safe-regex/-/safe-regex-1.1.0.tgz#40a3669f3b077d1e943d44629e157dd48023bf2e"
   dependencies:
     ret "~0.1.10"
+
+sanitizer@0.1.3, sanitizer@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/sanitizer/-/sanitizer-0.1.3.tgz#d4f0af7475d9a7baf2a9e5a611718baa178a39e1"
 
 semver-diff@^2.0.0:
   version "2.1.0"

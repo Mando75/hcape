@@ -25,11 +25,17 @@ export const extractAccountData = (body) => {
       pwd: body.pwd,
       confirmPwd: body.confirmPwd,
       email: body.email,
-      inumber: body.inumber
+      inumber: body.inumber,
+      type: body.type
     }
   } catch (e) {
       return null;
   }
+};
+
+export const createAccountMap = {
+  student: () => null,
+  teacher: () => null,
 };
 
 export const loginMap = {
@@ -54,4 +60,10 @@ export async function verifyPwd(user, hash) {
 function buildTokenPayload(user) {
   delete user.pwd;
   return user;
+}
+
+
+export async function hashPwd(pwd) {
+  const rounds = 12;
+  return await bcrypt.hash(pwd, rounds);
 }
