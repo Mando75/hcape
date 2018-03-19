@@ -1,24 +1,12 @@
 import React from 'react';
 import {Row, Col, Button} from 'antd';
 
-const qs = require('query-string');
 
 export class Home extends React.Component {
   state = {};
-  constructor(props) {
-    super(props);
-    if(props.location.search)
-      this.state.query = qs.parse(props.location.search)
-
-  }
 
   componentWillMount() {
-    if(this.state.query)
-      fetch(`/api/s/${this.state.query.orgid}`)
-          .then(results => results.json())
-          .then(data => {this.setState({
-            user: data
-          })});
+
   }
 
   render() {

@@ -38,7 +38,7 @@ export async function login(username, pwd, role) {
  * @type {{}}
  */
 const userFields = {
-  _id: false,
+  _id: true,
   email: true,
   inumber: true,
 };
