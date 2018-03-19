@@ -43,21 +43,15 @@ export const loginMap = {
   teacher: () => console.log('teacher')
 };
 
-import * as jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import {jwtOptions} from "./strategy";
 
-export async function verifyPwd(user, hash) {
-  if(await bcrypt.compare(user.pwd, hash)) {
-    const payload = buildTokenPayload(user);
-    const token = jwt.sign(payload, jwtOptions.secretOrKey, {expiresIn: '7d'});
-    return {message: 'login successful', status: 200, token: token}
-  }
-  return {message: 'Passwords did not match', status: 401}
+import bcrypt from 'bcrypt';
+
+export async function verifyPwd(hash, pwd) {
+  return await bcrypt.compare(pwd, hash);
 }
 
 
-function buildTokenPayload(user) {
+export function buildTokenPayload(user) {
   delete user.pwd;
   return user;
 }
