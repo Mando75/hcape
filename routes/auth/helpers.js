@@ -1,5 +1,4 @@
-import {studentLogin} from "../../resolvers/auth/student-login";
-import {createStudent} from "../../resolvers/auth/create-student";
+const sanitize = require('sanitizer').sanitize;
 
 /**
  * Extracts login params from req body.
@@ -10,36 +9,31 @@ import {createStudent} from "../../resolvers/auth/create-student";
 export const extractLoginData = (body) => {
   try {
     return {
-      username: body.username,
-      password: body.pwd,
-      type: body.type
+      username: sanitize(body.username),
+      password: sanitize(body.pwd),
+      type: sanitize(body.type)
     }
   } catch(e) {
     return null;
   }
 };
 
+/**
+ * Extracts data needed for creating account
+ * @param body
+ * @returns {*}
+ */
 export const extractAccountData = (body) => {
   try {
     return {
-      username: body.username,
-      pwd: body.pwd,
-      confirmPwd: body.confirmPwd,
-      email: body.email,
-      inumber: body.inumber,
-      type: body.type
+      username: sanitize(body.username),
+      pwd: sanitize(body.pwd),
+      email: sanitize(body.email),
+      inumber: sanitize(body.inumber),
+      type: sanitize(body.type)
     }
   } catch (e) {
     return null;
   }
 };
 
-export const createAccountMap = {
-  student: () => createStudent,
-  teacher: () => null,
-};
-
-export const loginMap = {
-  student: studentLogin,
-  teacher: () => console.log('teacher')
-};
