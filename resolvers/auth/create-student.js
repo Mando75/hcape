@@ -1,5 +1,7 @@
 import {connectToDb} from "../mongodb-connection";
-import {hashPwd} from "../../routes/auth/lib";
+
+import {hashPwd} from "./lib";
+
 const sanitize = require('sanitizer').sanitize;
 
 export async function createStudent(data) {

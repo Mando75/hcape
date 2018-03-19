@@ -1,13 +1,12 @@
 import express from 'express';
-import {extractAccountData, extractLoginData, loginMap} from "./lib";
-import {createStudent} from "../../resolvers/auth/create-student";
+import * as auth from "./helpers";
 
 const {check, validationResult} = require('express-validator/check');
 
 
-const auth = express.Router();
+const authRouter = express.Router();
 
-auth.get('/', (req, res) => {
+authRouter.get('/', (req, res) => {
   res.json({message: 'Root Authentication Endpoint'})
 });
 
@@ -17,7 +16,7 @@ const validRoles = ['student', 'faculty', 'admin'];
  * Login endpoint.
  * Verifies that the user has submitted a username, pwd, and type.
  */
-auth.post('/login',
+authRouter.post('/login',
     check('username').exists(),
     check('pwd').exists(),
     check('type').exists().isIn(validRoles),
@@ -33,11 +32,11 @@ auth.post('/login',
         return 0;
       }
 
-      const loginData = extractLoginData(req.body);
+      const loginData = auth.extractLoginData(req.body);
       /* loginFunction is created by passing the type to the
        loginMap. This object will return the appropriate login
        function based on the login type. */
-      const loginFunction = loginMap[loginData.type];
+      const loginFunction = auth.loginMap[loginData.type];
 
       /* The resp object will contain a message, status, and token.
          If the login fails, the resp will only contain a message and status */
@@ -45,7 +44,7 @@ auth.post('/login',
       res.status(resp.status).json(resp);
     });
 
-auth.post('/create',
+authRouter.post('/create',
     check('username').exists(),
     check('pwd').exists().isLength({min: 8}).custom(pwd => {
       return (
@@ -69,9 +68,10 @@ auth.post('/create',
         return 0;
       }
 
-      const accountData = extractAccountData(req.body);
-      const opp = createStudent(accountData);
+      const accountData = auth.extractAccountData(req.body);
+      const createFunction = auth.createAccountMap[accountData.type];
+      const opp = createFunction(accountData);
       res.json(opp);
     });
 
-export {auth};
+export {authRouter};
