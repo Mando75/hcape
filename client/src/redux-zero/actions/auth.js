@@ -1,9 +1,5 @@
-import store from '../store';
 
-export const auth = () => {
-  store.setState({_authed: true});
-};
-
-export const deauth = () => {
-  store.setState({_authed: false})
-};
+export const authActions = store => ({
+  auth: state => ({_authed: true}),
+  deauth: state => ({_authed: false}),
+});

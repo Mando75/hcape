@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {App} from "./components/App/App";
 import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'redux-zero/react';
-import store from './redux-zero/store';
+import {store} from './redux-zero/store';
 import 'antd/dist/antd.css';
 import './index.css';
 

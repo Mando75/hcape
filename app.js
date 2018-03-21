@@ -17,16 +17,16 @@ app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
 
 app.use('/api', apiRoot);
 
-app.use('/s', (req, res)=> {
-  res.redirect('/');
-});
-app.use('/t', (req, res)=> {
-  res.redirect('/');
-});
-
-app.use('/', (req, res) => {
-  res.sendFile(__dirname + '/client/build/index.html');
-});
+// app.use('/s', (req, res)=> {
+//   res.redirect('/');
+// });
+// app.use('/t', (req, res)=> {
+//   res.redirect('/');
+// });
+//
+// app.use('/', (req, res) => {
+//   res.sendFile(__dirname + '/client/build/index.html');
+// });
 
 
 // catch 404 and forward to error handler

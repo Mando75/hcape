@@ -3,11 +3,19 @@ import createStore from 'redux-zero';
 const initialState = {
   _loading: false,
   _authed: false,
-  _id: '',
-  type: '',
-  email: '',
+  _token: '',
+  user: {
+    _id: '',
+    username: '',
+    plainTxtPwd: '',
+    type: 'student',
+    email: '',
+    inumber: '',
+    name: 'User',
+  },
+  home: {
+    loginVis: false
+  }
 };
 
-const store = createStore(initialState);
-
-export default store;
+export const store = createStore(initialState);
