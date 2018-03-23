@@ -3,15 +3,16 @@ import {Menu, Icon, Layout} from 'antd';
 import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'redux-zero/react';
 import {userActions} from "../../redux-zero/actions/user";
+import {navActions} from "../../redux-zero/actions/nav";
+import {combineActions} from "redux-zero/utils";
 
-const MTP = ({_authed, user}) => ({_authed, user});
+const MTP = ({_authed, user, _collapsed}) => ({_authed, user, _collapsed});
 
 const {Sider} = Layout;
 
 class NavClass extends React.Component {
 
   state = {
-    collapsed: false,
     selectedNav: 'home'
   };
 
@@ -38,11 +39,11 @@ class NavClass extends React.Component {
             breakpoint="sm"
             collapsedWidth={this.state.width > 450 ? 80 : 0}
             collapsible
-            collapsed={this.state.collapsed}
-            onCollapse={this.toggle}
+            collapsed={this.props._collapsed}
+            onCollapse={this.props.toggleNav}
             // style={{position: 'fixed', overflow: 'auto', height: '100vh'}}
         >
-          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]}>
+          <Menu theme="dark" mode="inline">
             <Menu.Item key="/">
               <Link to={'/'}>
                 <Icon type="user"/>
@@ -63,7 +64,7 @@ class NavClass extends React.Component {
                         <span className="nav-text">Past Semester</span>
                       </Link>
                     </Menu.Item>
-                     (this.state.user.type === 'student') ?
+                     (this.props.user.type === 'student') ?
                           <Menu.Item key="/s/track">
                             <Link to={'/s/track'}>
                               <Icon type="line-chart"/>
@@ -86,7 +87,7 @@ class NavClass extends React.Component {
   }
 }
 
-const NavConnect = connect(MTP, userActions)(NavClass);
+const NavConnect = connect(MTP, combineActions(userActions, navActions))(NavClass);
 
 export const Nav = withRouter(NavConnect);
 

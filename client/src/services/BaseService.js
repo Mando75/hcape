@@ -5,8 +5,7 @@ export default class BaseService {
   }
 
   static set auth(jwt) {
-    localStorage.setItem('jwt': jwt);
-
+    localStorage.setItem('jwt', jwt);
   }
 
   static deauthed() {

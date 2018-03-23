@@ -12,14 +12,6 @@ import {LoginForm} from "./Login Form/LoginForm";
 const MTP = ({_authed, _loading, home}) => ({_authed, _loading, home});
 export const Home = connect(MTP, combineActions(homeActions, userActions, authActions, loadingActions))((props) => {
 
-  const handleLogin = () => {
-    props.startLoading();
-    setTimeout(() => {
-      alert('handle login');
-      props.finishLoading();
-    }, 2000)
-  };
-
   return (
       <div className={'user-root'}>
         <Row justify={'center'}>
@@ -54,10 +46,10 @@ export const Home = connect(MTP, combineActions(homeActions, userActions, authAc
             <Modal
                 title={'Login'}
                 visible={props.home.loginVis}
-                onOk={handleLogin}
                 confirmLoading={props._loading}
                 onCancel={props.hideLogin}
-                okText={'Log in'}>
+                okText={'Log in'}
+                footer={null}>
               <LoginForm/>
             </Modal>
             <Button type={'secondary'}
