@@ -1,16 +1,23 @@
 import React from 'react';
-import { Form, Icon, Input, Button, Spin} from 'antd';
+import {Form, Icon, Input, Button, Spin} from 'antd';
 import FormItem from "antd/es/form/FormItem";
 import {connect} from 'redux-zero/react';
 import {combineActions} from 'redux-zero/utils';
 import {AuthService} from "../../../services/AuthService";
-import {userActions} from "../../../redux-zero/actions/user";
 import {loadingActions} from "../../../redux-zero/actions/loading";
 import {authActions} from "../../../redux-zero/actions/auth";
 import {homeActions} from "../../../redux-zero/actions/home";
 
 const MTP = ({_authed, _loading, home, user}) => ({_authed, _loading, home, user});
+
 class NormalLoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      credErr: false
+    };
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.startLoading();
@@ -20,15 +27,18 @@ class NormalLoginForm extends React.Component {
         const message = await AuthService.log_in(values.username, values.pwd, 'student');
         console.log(message);
         if (message) {
+          this.setState({credErr: false});
           this.props.finishLoading();
           this.props.hideLogin();
           this.props.auth();
+        } else {
+          this.props.finishLoading();
+          this.setState({credErr: true});
         }
       }
     });
   };
 
-  _loadingIndicator = <Icon type={"loading"} style={{fontSize: 24}} spin/>;
 
   render() {
     const {getFieldDecorator} = this.props.form;
@@ -55,7 +65,11 @@ class NormalLoginForm extends React.Component {
             </Button>
             {
               this.props._loading ?
-                  <Spin  style={{marginLeft: '15px'}}/> : ""
+                  <Spin style={{marginLeft: '15px'}}/> : ""
+            }
+            {
+              this.state.credErr ?
+                  <p style={{color: 'red'}}>There was a problem with your credentials. Please try again</p> : ""
             }
           </FormItem>
         </Form>
@@ -64,5 +78,4 @@ class NormalLoginForm extends React.Component {
 };
 
 
-
-export const LoginForm = connect(MTP, combineActions(userActions, loadingActions, authActions, homeActions))(Form.create()(NormalLoginForm));
+export const LoginForm = connect(MTP, combineActions(loadingActions, authActions, homeActions))(Form.create()(NormalLoginForm));
