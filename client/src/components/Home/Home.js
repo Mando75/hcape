@@ -8,6 +8,7 @@ import {loadingActions} from "../../redux-zero/actions/loading";
 import {homeActions} from "../../redux-zero/actions/home";
 import {Modal} from 'antd';
 import {LoginForm} from "./Login Form/LoginForm";
+import {CreateForm} from "./CreateForm/CreateForm";
 
 const MTP = ({_authed, _loading, home}) => ({_authed, _loading, home});
 export const Home = connect(MTP, combineActions(homeActions, userActions, authActions, loadingActions))((props) => {
@@ -48,9 +49,17 @@ export const Home = connect(MTP, combineActions(homeActions, userActions, authAc
                 visible={props.home.loginVis}
                 confirmLoading={props._loading}
                 onCancel={props.hideLogin}
-                okText={'Log in'}
                 footer={null}>
               <LoginForm/>
+            </Modal>
+            <Button type={'default'} size={'large'} onClick={props.showCreate}>Create Account</Button>
+            <Modal 
+              title={'Create Account'}
+              visible={props.home.createVis}
+              confirmLoading={props._loading}
+              onCancel={props.hideCreate}
+              footer={null}>
+              <CreateForm/>
             </Modal>
             <Button type={'secondary'}
                     icon={'home'}

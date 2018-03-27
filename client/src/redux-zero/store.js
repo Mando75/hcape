@@ -12,7 +12,8 @@ const initialState = {
     name: 'User',
   },
   home: {
-    loginVis: false
+    loginVis: false,
+    createVis: false,
   }
 };
 
