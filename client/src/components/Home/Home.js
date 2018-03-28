@@ -3,16 +3,16 @@ import {Row, Col, Button} from 'antd';
 import {connect} from 'redux-zero/react';
 import {combineActions} from 'redux-zero/utils';
 import {userActions} from "../../redux-zero/actions/user";
-import {authActions} from "../../redux-zero/actions/auth";
 import {loadingActions} from "../../redux-zero/actions/loading";
 import {homeActions} from "../../redux-zero/actions/home";
 import {Modal} from 'antd';
 import {LoginForm} from "./Login Form/LoginForm";
-import {CreateForm} from "./CreateForm/CreateForm";
+import {AccountForm} from "./CreateAccount/CreateAccountModal";
+import {CreateForm, TestForm} from "./CreateAccount/CreateForm/CreateForm";
 
 const MTP = ({_authed, _loading, home}) => ({_authed, _loading, home});
-export const Home = connect(MTP, combineActions(homeActions, userActions, authActions, loadingActions))((props) => {
-
+export const Home = connect(MTP, combineActions(userActions, loadingActions))((props) => {
+   console.log(props.home);
   return (
       <div className={'user-root'}>
         <Row justify={'center'}>
@@ -41,26 +41,28 @@ export const Home = connect(MTP, combineActions(homeActions, userActions, authAc
             <Button type={'primary'}
                     size={'large'}
                     icon={'user'}
-                    onClick={props.showLogin}
+                    onClick={homeActions.showLogin}
                     htmlType={'button'}
                     className={'signin'}>Sign in</Button>
             <Modal
                 title={'Login'}
                 visible={props.home.loginVis}
                 confirmLoading={props._loading}
-                onCancel={props.hideLogin}
+                onCancel={homeActions.hideLogin}
                 footer={null}>
               <LoginForm/>
             </Modal>
-            <Button type={'default'} size={'large'} onClick={props.showCreate}>Create Account</Button>
-            <Modal 
+            <Button type={'default'} size={'large'} onClick={homeActions.showCreate}>Create Account</Button>
+            <Modal
               title={'Create Account'}
               visible={props.home.createVis}
               confirmLoading={props._loading}
-              onCancel={props.hideCreate}
+              onCancel={homeActions.hideCreate}
               footer={null}>
-              <CreateForm/>
+              <TestForm/>
             </Modal>
+            {/*<AccountForm />*/}
+
             <Button type={'secondary'}
                     icon={'home'}
                     size={'large'}

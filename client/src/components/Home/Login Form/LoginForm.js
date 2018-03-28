@@ -29,8 +29,8 @@ class NormalLoginForm extends React.Component {
         if (message) {
           this.setState({credErr: false});
           this.props.finishLoading();
-          this.props.hideLogin();
-          this.props.auth();
+          homeActions.hideLogin();
+          authActions.auth();
         } else {
           this.props.finishLoading();
           this.setState({credErr: true});
@@ -78,4 +78,4 @@ class NormalLoginForm extends React.Component {
 };
 
 
-export const LoginForm = connect(MTP, combineActions(loadingActions, authActions, homeActions))(Form.create()(NormalLoginForm));
+export const LoginForm = connect(MTP, combineActions(loadingActions))(Form.create()(NormalLoginForm));

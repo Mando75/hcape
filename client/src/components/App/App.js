@@ -6,7 +6,6 @@ import {Home} from "../Home/Home";
 import {connect} from 'redux-zero/react';
 import {combineActions} from 'redux-zero/utils';
 import {userActions} from "../../redux-zero/actions/user";
-import {authActions} from "../../redux-zero/actions/auth";
 const {Footer, Content} = Layout;
 
 
@@ -35,4 +34,4 @@ class AppClass extends React.Component {
   }
 }
 
-export const App = connect(MTP, combineActions(userActions, authActions))(AppClass);
+export const App = connect(MTP, combineActions(userActions))(AppClass);
