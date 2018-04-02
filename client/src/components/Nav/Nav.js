@@ -6,19 +6,31 @@ import {userActions} from "../../redux-zero/actions/user";
 import {navActions} from "../../redux-zero/actions/nav";
 import {combineActions} from "redux-zero/utils";
 
-const MTP = ({_authed, user, _collapsed}) => ({_authed, user, _collapsed});
+const MTP = (store) => ({...store});
 
 const {Sider} = Layout;
 
 class NavClass extends React.Component {
+  // set nav as open
+  state = {
+    _collapsed: false
+  };
 
+  /**
+   * Toggles the nav state to either open or collapsed
+   * @returns {*}
+   */
+  toggleNav = () => this.setState({_collapsed: !this.state._collapsed});
+
+
+  // this determines if the nav will load as mobile
   componentWillMount() {
     this.setState({width: window.innerWidth});
   }
 
   roleMenu = () => {
     return (
-        this.props.user.type === 'student' ?
+        this.props.user_type === 'student' ?
             <Menu.Item key="/s/track">
               <Link to={'/s/track'}>
                 <Icon type="line-chart"/>
@@ -42,8 +54,8 @@ class NavClass extends React.Component {
             breakpoint="sm"
             collapsedWidth={this.state.width > 450 ? 80 : 0}
             collapsible
-            collapsed={this.props._collapsed}
-            onCollapse={this.props.toggleNav}
+            collapsed={this.state._collapsed}
+            onCollapse={this.toggleNav}
             // style={{position: 'fixed', overflow: 'auto', height: '100vh'}}
         >
           {this.props._authed ?
@@ -51,7 +63,7 @@ class NavClass extends React.Component {
                 <Menu.Item key="/">
                   <Link to={'/'}>
                     <Icon type="user"/>
-                    <span className="nav-text">{this.props.user.name}</span>
+                    <span className="nav-text">{this.props.user_name}</span>
                   </Link>
                 </Menu.Item>
                 <Menu.Item key="/s/curreval">
@@ -70,7 +82,7 @@ class NavClass extends React.Component {
               : (<Menu theme={"dark"} mode="inline" selectedKeys={[location.pathname]}><Menu.Item key="/">
                 <Link to={'/'}>
                   <Icon type="user"/>
-                  <span className="nav-text">{this.props.user.name}</span>
+                  <span className="nav-text">{this.props.user_name}</span>
                 </Link>
               </Menu.Item></Menu>)
           }

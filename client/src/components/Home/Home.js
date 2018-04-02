@@ -1,18 +1,14 @@
 import React from 'react';
 import {Row, Col, Button} from 'antd';
 import {connect} from 'redux-zero/react';
-import {combineActions} from 'redux-zero/utils';
-import {userActions} from "../../redux-zero/actions/user";
-import {loadingActions} from "../../redux-zero/actions/loading";
 import {homeActions} from "../../redux-zero/actions/home";
 import {Modal} from 'antd';
 import {LoginForm} from "./Login Form/LoginForm";
 import {AccountForm} from "./CreateAccount/CreateAccountModal";
-import {CreateForm, TestForm} from "./CreateAccount/CreateForm/CreateForm";
 
-const MTP = ({_authed, _loading, home}) => ({_authed, _loading, home});
-export const Home = connect(MTP, combineActions(userActions, loadingActions))((props) => {
-   console.log(props.home);
+
+const MTP = (store) => ({...store});
+export const Home = connect(MTP)((props) => {
   return (
       <div className={'user-root'}>
         <Row justify={'center'}>
@@ -46,23 +42,14 @@ export const Home = connect(MTP, combineActions(userActions, loadingActions))((p
                     className={'signin'}>Sign in</Button>
             <Modal
                 title={'Login'}
-                visible={props.home.loginVis}
+                visible={props.home_login_visible}
                 confirmLoading={props._loading}
                 onCancel={homeActions.hideLogin}
                 footer={null}>
               <LoginForm/>
             </Modal>
             <Button type={'default'} size={'large'} onClick={homeActions.showCreate}>Create Account</Button>
-            <Modal
-              title={'Create Account'}
-              visible={props.home.createVis}
-              confirmLoading={props._loading}
-              onCancel={homeActions.hideCreate}
-              footer={null}>
-              <TestForm/>
-            </Modal>
-            {/*<AccountForm />*/}
-
+            <AccountForm />
             <Button type={'secondary'}
                     icon={'home'}
                     size={'large'}

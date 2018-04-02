@@ -3,14 +3,8 @@
 import {store} from "../store";
 
 export const userActions = {
-  setUser: ({...user}) => {
-    store.setState({
-      user_id: id,
-      user_type: type,
-      user_email: email,
-      user_inumber: inumber,
-      user_name: name
-    })
+  setUser: ({user}) => {
+    store.setState({...user})
   },
   delUser: () => {
     store.setState({

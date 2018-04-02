@@ -29,7 +29,7 @@ export const LinkForm = (props) => {
         <FormItem label={"I-Number"}>
           {getFieldDecorator('inumber', {
             rules: [{
-              require: true, message: "Please enter your inumber"
+              required: true, message: "Please enter your inumber"
             }]
           })(<Input />)}
         </FormItem>

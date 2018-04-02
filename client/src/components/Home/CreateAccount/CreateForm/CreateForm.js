@@ -2,13 +2,11 @@ import React from 'react';
 import {Steps, Button, message, Form,} from 'antd';
 import {RegisterForm} from "./RegisterForm";
 import {LinkForm} from "./LinkForm";
-import {connect} from 'redux-zero/react';
 const Step = Steps.Step;
 
 
 
 class CreateFormClass extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -82,9 +80,14 @@ class CreateFormClass extends React.Component {
           <div className="steps-content">{steps[this.state.current].content()}</div>
           <div className="steps-action" style={{marginTop: '20px'}}>
             {
-              this.state.current < steps.length - 1
+              this.state.current === 0
               &&
               <Button type="primary" onClick={() => this.next()}>Next</Button>
+            }
+            {
+              this.state.current === 1
+              &&
+              <Button type={'submit'} onClick={() => this.next()}>Create</Button>
             }
             {
               this.state.current === steps.length - 1
@@ -107,71 +110,6 @@ class CreateFormClass extends React.Component {
   };
 }
 
-export const CreateForm = Form.create({
-  onFieldsChange(props, changedFields) {
-    props.onChange(changedFields);
-  },
-  mapPropsToFields(props) {
-    console.log(props);
-    const fields = props.home.fields;
-    return {
-      username: Form.createFormField({
-              ...fields.username,
-        value: fields.username.value,
-      }),
-      pwd: Form.createFormField({
-          ...fields.pwd,
-        value: fields.pwd.value,
-      }),
-      email: Form.createFormField({
-          ...fields.email,
-        value: fields.email.value,
-      }),
-      inumber: Form.createFormField({
-          ...fields.inumber,
-        value: fields.inumber.value,
-      })
-    };
-  },
-  onValuesChange(_, values) {
-    console.log(values);
-  }
+export const CreateForm = Form.create()(CreateFormClass);
 
-})(CreateFormClass);
-
-const MTP = ({home}) => ({home});
-export const TestForm = connect(MTP)(class extends React.Component {
-  state = {
-    fields: {
-      username: {
-        value: ''
-      },
-      pwd: {
-        value: ''
-      },
-      email: {
-        value: ''
-      },
-      inumber: {
-        value: ''
-      }
-    }
-  };
-
-  handleFormChange = (changedFields) => {
-    this.setState(({fields}) => ({
-      fields: { ...fields, ...changedFields}
-    }));
-  };
-
-  render() {
-    const fields = this.props.fields;
-    console.log('top', this.props);
-    return (
-        <div>
-          <CreateForm {...fields} onChange={this.handleFormChange}/>
-        </div>
-    )
-  }
-});
 

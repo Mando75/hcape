@@ -4,22 +4,23 @@ import {homeActions} from "../../../redux-zero/actions/home";
 import {connect} from 'redux-zero/react';
 import {CreateForm} from "./CreateForm/CreateForm";
 
-const MTP = ({home}) => ({home});
+const MTP = (store) => ({...store});
 
-export const AccountForm = connect(MTP, homeActions)(class extends React.Component {
+export const AccountForm = connect(MTP)(class extends React.Component {
 
   render() {
-    const fields = this.props.home.fields;
+    const fields = this.props.home_create_fields;
     const props = this.props;
     console.log(fields);
     return (
         <Modal
             title={'Create Account'}
-            visible={props.home.createVis}
+            visible={props.home_create_visible}
             confirmLoading={props._loading}
-            onCancel={props.hideCreate}
+            onCancel={homeActions.hideCreate}
             footer={null}>
-          <CreateForm {...fields} onChange={props.handleFormChange}/>
+        <CreateForm />
+          {/*<CreateForm {...fields} onChange={props.handleFormChange}/>*/}
         </Modal>
     )
   }

@@ -8,7 +8,7 @@ import {loadingActions} from "../../../redux-zero/actions/loading";
 import {authActions} from "../../../redux-zero/actions/auth";
 import {homeActions} from "../../../redux-zero/actions/home";
 
-const MTP = ({_authed, _loading, home, user}) => ({_authed, _loading, home, user});
+const MTP = (store) => ({...store});
 
 class NormalLoginForm extends React.Component {
   constructor(props) {
@@ -20,19 +20,18 @@ class NormalLoginForm extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.startLoading();
+    loadingActions.startLoading();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
         const message = await AuthService.log_in(values.username, values.pwd, 'student');
-        console.log(message);
         if (message) {
           this.setState({credErr: false});
-          this.props.finishLoading();
+          loadingActions.finishLoading();
           homeActions.hideLogin();
           authActions.auth();
         } else {
-          this.props.finishLoading();
+          loadingActions.finishLoading();
           this.setState({credErr: true});
         }
       }
