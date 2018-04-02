@@ -1,14 +1,18 @@
 import React from 'react';
 import {Input} from 'antd';
 import FormItem from "antd/es/form/FormItem";
+import {connect} from 'redux-zero/react';
 
-export const RegisterForm = (props) => {
+const MTP = (store) => ({...store});
+
+export const RegisterForm = connect(MTP)((props) => {
   // TODO Fix errors showing on modal load
   const getFieldDecorator = props.dec;
   return (
       <div>
         <FormItem label={'Username'}>
           {getFieldDecorator('username', {
+            initialValue: props.home_create_username,
             rules: [{
               required: true, message: 'Please input your BYUI username!',
             }]
@@ -16,10 +20,11 @@ export const RegisterForm = (props) => {
         </FormItem>
         <FormItem label="Password">
           {getFieldDecorator('pwd', {
+            initialValue: props.home_create_pwd,
             rules: [{
               required: true, message: 'Please input your password!',
             }, {
-              validator: this.validateToNextPassword,
+              validator: props.pwdValidator,
             }],
           })(
               <Input type="password"/>
@@ -30,12 +35,13 @@ export const RegisterForm = (props) => {
             rules: [{
               required: true, message: 'Please confirm your password!',
             }, {
-              validator: this.compareToFirstPassword,
+              validator: props.confirmPwdValidator,
             }],
           })(
-              <Input type="password" onBlur={this.handleConfirmBlur}/>
+              <Input type="password"
+                     onBlur={this.handleConfirmBlur}/>
           )}
         </FormItem>
       </div>
   )
-};
+});

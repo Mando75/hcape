@@ -21,7 +21,7 @@ export class AuthService extends BaseService {
     }).catch((err) => {console.log(err); return false});
   }
 
-  static async create_account(username, pwd, email, inumber, type) {
+  static async create_account({email, inumber, username, pwd, type}) {
     return axios({
       method: 'post',
       url: '/api/auth/create',

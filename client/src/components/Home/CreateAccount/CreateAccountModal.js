@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {Modal} from 'antd';
 import {homeActions} from "../../../redux-zero/actions/home";
 import {connect} from 'redux-zero/react';
@@ -9,9 +10,7 @@ const MTP = (store) => ({...store});
 export const AccountForm = connect(MTP)(class extends React.Component {
 
   render() {
-    const fields = this.props.home_create_fields;
     const props = this.props;
-    console.log(fields);
     return (
         <Modal
             title={'Create Account'}
@@ -19,8 +18,7 @@ export const AccountForm = connect(MTP)(class extends React.Component {
             confirmLoading={props._loading}
             onCancel={homeActions.hideCreate}
             footer={null}>
-        <CreateForm />
-          {/*<CreateForm {...fields} onChange={props.handleFormChange}/>*/}
+          <CreateForm ref={'CreateForm'}/>
         </Modal>
     )
   }

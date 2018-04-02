@@ -63,7 +63,7 @@ class NavClass extends React.Component {
                 <Menu.Item key="/">
                   <Link to={'/'}>
                     <Icon type="user"/>
-                    <span className="nav-text">{this.props.user_name}</span>
+                    <span className="nav-text">{this.props.user_email}</span>
                   </Link>
                 </Menu.Item>
                 <Menu.Item key="/s/curreval">
@@ -82,7 +82,7 @@ class NavClass extends React.Component {
               : (<Menu theme={"dark"} mode="inline" selectedKeys={[location.pathname]}><Menu.Item key="/">
                 <Link to={'/'}>
                   <Icon type="user"/>
-                  <span className="nav-text">{this.props.user_name}</span>
+                  <span className="nav-text">{this.props.user_email}</span>
                 </Link>
               </Menu.Item></Menu>)
           }

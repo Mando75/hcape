@@ -12,7 +12,6 @@ export const userActions = {
       user_type: '',
       user_email: '',
       user_inumber: '',
-      user_name: '',
     })
   },
   setType: (type) => {

@@ -9,7 +9,9 @@ import {hashPwd} from "./lib";
 export async function createAccount(data) {
   const query = await buildQuery(data);
   const conn = await connectToDb('student');
-  return await conn.insertOne(query);
+  const resp = await conn.insertOne(query);
+  delete resp.ops[0].pwd;
+  return resp.ops[0];
 }
 
 /**

@@ -1,11 +1,16 @@
 import React from 'react';
-import {Steps, Button, message, Form,} from 'antd';
+import {Steps, Button, message, Form, Spin} from 'antd';
 import {RegisterForm} from "./RegisterForm";
 import {LinkForm} from "./LinkForm";
+import {loadingActions} from "../../../../redux-zero/actions/loading";
+import {AuthService} from "../../../../services/AuthService";
+import {homeActions} from "../../../../redux-zero/actions/home";
+import {connect} from 'redux-zero/react';
+
 const Step = Steps.Step;
 
 
-
+const MTP = (store) => ({...store});
 class CreateFormClass extends React.Component {
   constructor(props) {
     super(props);
@@ -15,17 +20,30 @@ class CreateFormClass extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    this.setState({current: 0});
+  }
+
   componentDidMount() {
     this.props.form.validateFields();
   };
 
   handleSubmit = (e) => {
+    const props = this.props
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    loadingActions.startLoading();
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        values.type = 'student';
+        values.username = props.home_create_username;
+        values.pwd = props.home_create_pwd;
+        const msg = await AuthService.create_account({...values});
+
+        loadingActions.finishLoading();
+        this.next();
       }
     });
+
   };
 
   handleConfirmBlur = (e) => {
@@ -51,6 +69,9 @@ class CreateFormClass extends React.Component {
   };
 
   next() {
+    if(this.state.current === 0) {
+      this.saveFields();
+    }
     const current = this.state.current + 1;
     this.setState({current});
   };
@@ -60,12 +81,21 @@ class CreateFormClass extends React.Component {
     this.setState({current});
   };
 
+  saveFields() {
+     const vals = this.props.form.getFieldsValue(['username', 'pwd']);
+     homeActions.saveCreateUsername(vals.username);
+     homeActions.saveCreatePwd(vals.pwd)
+  }
+
   steps = [{
     title: 'Register',
-    content: () => <RegisterForm dec={this.props.form.getFieldDecorator}/>,
+    content: () => <RegisterForm
+        pwdValidator={this.validateToNextPassword}
+        confirmPwdValidator={this.compareToFirstPassword}
+        dec={this.props.form.getFieldDecorator}/>,
   }, {
     title: 'Link',
-    content: () => <LinkForm dec={this.props.form.getFieldDecorator}/>,
+    content: () => <LinkForm dec={this.props.form.getFieldDecorator} />,
   }, {
     title: 'Confirm',
     content: () => 'Last-content',
@@ -87,7 +117,7 @@ class CreateFormClass extends React.Component {
             {
               this.state.current === 1
               &&
-              <Button type={'submit'} onClick={() => this.next()}>Create</Button>
+              <Button type={'primary'} htmlType="submit">Create</Button>
             }
             {
               this.state.current === steps.length - 1
@@ -101,6 +131,11 @@ class CreateFormClass extends React.Component {
                 Previous
               </Button>
             }
+            {
+              this.props._loading
+                &&
+              <Spin style={{marginLeft: '15px'}} />
+            }
           </div>
           <Steps current={current} size='small' style={{marginTop: '20px'}}>
             {steps.map(item => <Step key={item.title} title={item.title}/>)}
@@ -110,6 +145,7 @@ class CreateFormClass extends React.Component {
   };
 }
 
-export const CreateForm = Form.create()(CreateFormClass);
+export const CreateForm = connect(MTP)(Form.create()(CreateFormClass));
+
 
 
