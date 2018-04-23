@@ -23,7 +23,6 @@ class NormalLoginForm extends React.Component {
     loadingActions.startLoading();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         const message = await AuthService.log_in(values.username, values.pwd, 'student');
         if (message) {
           this.setState({credErr: false});

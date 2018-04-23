@@ -74,7 +74,7 @@ authRouter.post('/create',
       // Extract data needed to create account
       const accountData = auth.extractAccountData(req.body);
       const opp = await createAccount(accountData);
-      res.json(opp);
+      res.status(opp.status).json(opp);
     });
 
 export {authRouter};

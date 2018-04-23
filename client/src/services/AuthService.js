@@ -15,10 +15,13 @@ export class AuthService extends BaseService {
         type: type
       }
     }).then(({data}) => {
-        this.auth = data.token;
-        delete data.token;
-        return data;
-    }).catch((err) => {console.log(err); return false});
+      this.auth = data.token;
+      delete data.token;
+      return data;
+    }).catch((err) => {
+      console.log(err);
+      return false
+    });
   }
 
   static async create_account({email, inumber, username, pwd, type}) {
@@ -35,10 +38,15 @@ export class AuthService extends BaseService {
         inumber: inumber,
         type: type
       }
-    }).then(({data}) => {
-      this.auth = data.token;
-      delete data.token;
-      return data;
-    }).catch((err) => {console.log(err); return false});
+    }).then(() => 'Your account is now created. Please sign in')
+        .catch((err) => {
+          console.log(err.response);
+          switch (err.response.data.code) {
+            case 11000:
+              return "Duplicate field detected. Please check that you do not already have an account";
+            default:
+              return "There was an error making your account. Please check the fields you entered and try again";
+          }
+        });
   }
 }

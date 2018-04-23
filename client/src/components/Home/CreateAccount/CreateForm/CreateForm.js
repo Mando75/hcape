@@ -9,7 +9,9 @@ import {connect} from 'redux-zero/react';
 
 const Step = Steps.Step;
 
+//TODO Check username/email/passwd before attempting to create account
 
+// link redux store
 const MTP = (store) => ({...store});
 class CreateFormClass extends React.Component {
   constructor(props) {
@@ -17,6 +19,7 @@ class CreateFormClass extends React.Component {
     this.state = {
       confirmDirty: false,
       current: 0,
+      createMsg: ''
     }
   };
 
@@ -29,19 +32,23 @@ class CreateFormClass extends React.Component {
   };
 
   handleSubmit = (e) => {
-    const props = this.props
+    const props = this.props;
     e.preventDefault();
     loadingActions.startLoading();
     this.props.form.validateFields(async (err, values) => {
-      if (!err) {
+      if (err) {
+        alert("Please check that all fields have been properly filled out")
+      } else {
         values.type = 'student';
         values.username = props.home_create_username;
         values.pwd = props.home_create_pwd;
         const msg = await AuthService.create_account({...values});
-
+        this.setState({createMsg: msg});
         loadingActions.finishLoading();
         this.next();
       }
+      // loadingActions.finishLoading();
+      //   this.next();
     });
 
   };
@@ -98,7 +105,7 @@ class CreateFormClass extends React.Component {
     content: () => <LinkForm dec={this.props.form.getFieldDecorator} />,
   }, {
     title: 'Confirm',
-    content: () => 'Last-content',
+    content: () => this.state.createMsg,
   }];
 
 
