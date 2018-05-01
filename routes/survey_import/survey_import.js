@@ -1,7 +1,7 @@
 import express from 'express';
 import {axiosQualtrics} from "../../lib/qualtrics";
 import {parse_survey_meta, parse_survey_questions} from "../../lib/parse_survey";
-import {fetch_qualtrics_survey_data} from "../../lib/qualtrics_api/fetch_survey";
+import {fetch_qualtrics_survey_data} from "../../resolvers/qualtrics_api/fetch_survey";
 import {connectToDb, COLLECTIONS, mongoId} from "../../resolvers/mongodb-connection";
 
 const sanitize = require('sanitizer').sanitize;
@@ -44,14 +44,15 @@ surveyImportRouter.post('/survey/:survey_id', async (req, res) => {
 
         //TODO write resolver function to import into database.
 
-        const teach = await conn.findOneAndUpdate({_id: mongoId(auth._id)}, {fields: {email: 1, username: 1}});
-        console.log(teach);
-        // console.log(mongoId(auth._id))
-        res.send(teach);
+        const teach = await conn.findOneAndUpdate({_id: mongoId(auth._id)},
+            {$push: { surveys: parsedSurvey }}, {returnNewDocument: true, returnOriginal: false});
+        const resp = {
+          status: teach.lastErrorObject.updatedExisting ? 200 : 500,
+          data: teach.value,
+        };
+        res.status(resp.status).json(resp);
     } catch (error) {
-        console.log(error);
-        res.status(500).json
-        (error);
+        res.status(401).send(error.response.statusText);
     }
 
 });

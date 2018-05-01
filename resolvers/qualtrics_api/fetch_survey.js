@@ -1,5 +1,5 @@
-import {axiosQualtrics} from "../qualtrics";
-import {parse_survey_questions, parse_survey_meta} from "../parse_survey";
+import {axiosQualtrics} from "../../lib/qualtrics";
+import {parse_survey_questions, parse_survey_meta} from "../../lib/parse_survey";
 
 export const fetch_qualtrics_survey_data = async (survey_id) => {
   try {

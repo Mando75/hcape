@@ -36,5 +36,6 @@ async function buildQuery(data) {
     pwd: await hashPwd(data.pwd),
     email: data.email,
     inumber: data.inumber,
+    surveys: [],
   }
 }
