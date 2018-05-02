@@ -8,7 +8,7 @@ import {hashPwd} from "./lib";
  */
 export async function createAccount(data) {
   const query = await buildQuery(data);
-  const conn = await connectToDb(data.type);
+  const conn = connectToDb(data.type);
   try {
     const resp = (await conn.insertOne(query)).ops[0];
     delete resp.pwd;

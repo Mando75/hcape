@@ -3,6 +3,7 @@ import {axiosQualtrics} from "../../lib/qualtrics";
 import {parse_survey_meta, parse_survey_questions} from "../../lib/parse_survey";
 import {fetch_qualtrics_survey_data} from "../../resolvers/qualtrics_api/fetch_survey";
 import {connectToDb, COLLECTIONS, mongoId} from "../../resolvers/mongodb-connection";
+import {delete_survey} from "../../resolvers/qualtrics_api/delete_survey";
 
 const sanitize = require('sanitizer').sanitize;
 const {check, validatonResult} = require('express-validator');
@@ -37,7 +38,7 @@ surveyImportRouter.route('/survey/:survey_id')
     .post(async (req, res) => {
       const auth = req.authpayload;
       const survey_id = sanitize(req.params.survey_id);
-      const conn = await connectToDb(COLLECTIONS.FACULTY);
+      const conn = connectToDb(COLLECTIONS.FACULTY);
       try {
         const survey = (await axiosQualtrics.get(`/surveys/${survey_id}`)).data;
         const parsedSurvey = {
@@ -61,5 +62,8 @@ surveyImportRouter.route('/survey/:survey_id')
     })
     .delete(async (req, res) => {
       const survey_id = sanitize(req.params.survey_id);
+      const user_id = req.authpayload._id;
+      const resp = await delete_survey(survey_id, user_id);
+      res.send(resp)
     });
 export {surveyImportRouter}

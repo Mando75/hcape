@@ -11,7 +11,7 @@ import * as jwt from 'jsonwebtoken';
  * @returns {Promise<*>}
  */
 export async function login(username, pwd, role) {
-  const conn = await connectToDb(role);
+  const conn = connectToDb(role);
   const user = await conn.findOne({username: username}, {fields: {pwd: 1}});
   if (user && await verifyPwd(user.pwd, pwd)) {
     const payload = buildTokenPayload(user);
