@@ -15,7 +15,7 @@ export async function login(username, pwd, role) {
   const user = await conn.findOne({username: username}, {fields: {pwd: 1}});
   if (user && await verifyPwd(user.pwd, pwd)) {
     const payload = buildTokenPayload(user);
-    const token = jwt.sign(payload, jwtOptions.secretOrKey, {expiresIn: '7d'});
+    const token = jwt.sign(payload, jwtOptions.secretOrKey, {expiresIn: process.env.AUTH_TOKEN_LIFESPAN});
     const userData = await conn.findOne({_id: user._id}, {fields: userFields});
     return {
       message: 'login successful',
