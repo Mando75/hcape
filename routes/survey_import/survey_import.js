@@ -42,18 +42,16 @@ surveyImportRouter.post('/survey/:survey_id', async (req, res) => {
       questions: parse_survey_questions(survey.result)
     };
 
-    //TODO write resolver function to import into database.
-
-    const teach = await conn.findOneAndUpdate({_id: mongoId(auth._id)},
+    const updateResp = await conn.findOneAndUpdate({_id: mongoId(auth._id)},
         {$addToSet: {surveys: parsedSurvey}}, {returnNewDocument: true, returnOriginal: false});
-    console.log(teach);
     const resp = {
-      status: teach.lastErrorObject.updatedExisting ? 200 : 500,
-      data: teach.value,
+      status: updateResp.lastErrorObject.updatedExisting ? 200 : 500,
+      data: updateResp.value,
     };
     res.status(resp.status).json(resp);
   } catch (error) {
-    res.status(401).send(error);
+    console.log(error.response);
+    res.status(error.response.status).send(error.response.statusText);
   }
 
 });
