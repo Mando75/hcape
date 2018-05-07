@@ -1,12 +1,12 @@
 import express from 'express';
 import {axiosQualtrics} from "../../lib/qualtrics";
 import {parse_survey_meta, parse_survey_questions} from "../../lib/parse_survey";
-import {fetch_qualtrics_survey_data} from "../../resolvers/qualtrics_api/fetch_survey";
+import {fetch_qualtrics_survey_data} from "../../resolvers/survey_import/fetch_survey";
 import {connectToDb, COLLECTIONS, mongoId} from "../../resolvers/mongodb-connection";
-import {delete_survey} from "../../resolvers/qualtrics_api/delete_survey";
+import {delete_survey} from "../../resolvers/survey_import/delete_survey";
+import {save_survey} from "../../resolvers/survey_import/save_survey";
 
 const sanitize = require('sanitizer').sanitize;
-const {check, validatonResult} = require('express-validator');
 const surveyImportRouter = express.Router();
 
 
@@ -30,40 +30,50 @@ surveyImportRouter.get('/:response_id', (req, res) => {
  * DELETE: Remove from database
  */
 surveyImportRouter.route('/survey/:survey_id')
+/**
+ * GET
+ * */
     .get(async (req, res) => {
       const survey_id = sanitize(req.params.survey_id);
       const survey = await fetch_qualtrics_survey_data(survey_id);
       res.status(survey.status).json(survey.data || survey.error);
     })
+    /**
+     * POST
+     */
     .post(async (req, res) => {
       const auth = req.authpayload;
       const survey_id = sanitize(req.params.survey_id);
-      const conn = connectToDb(COLLECTIONS.FACULTY);
       try {
         const survey = (await axiosQualtrics.get(`/surveys/${survey_id}`)).data;
         const parsedSurvey = {
           meta: parse_survey_meta(survey.result),
           questions: parse_survey_questions(survey.result),
-          _id: auth._id
         };
 
-        const updateResp = await conn.findOneAndUpdate({_id: mongoId(auth._id)},
-            {$addToSet: {surveys: parsedSurvey}}, {returnNewDocument: true, returnOriginal: false});
-        const resp = {
-          status: updateResp.lastErrorObject.updatedExisting ? 200 : 500,
-          data: updateResp.value,
-        };
+        const resp = await save_survey(parsedSurvey, mongoId(auth._id));
         res.status(resp.status).json(resp);
+
       } catch (error) {
+
         console.log(error.response);
         res.status(error.response.status).send(error.response.statusText);
       }
 
     })
+    /**
+     * DELETE
+     */
     .delete(async (req, res) => {
-      const survey_id = sanitize(req.params.survey_id);
-      const user_id = req.authpayload._id;
-      const resp = await delete_survey(survey_id, user_id);
-      res.send(resp)
+      const survey_id = sanitize(req.params.survey_id).trim();
+      const user_id = req.authpayload._id
+      try {
+        const updateMsg = await delete_survey(survey_id, mongoId(user_id));
+        const resp = updateMsg.nModified ? {status: 200, msg: "Update successful"}
+            : {status: 400, msg: "No updates were made"};
+        res.status(resp.status).json(resp);
+      } catch (e) {
+        res.status(500).json({msg: "An unexptected error occurred"})
+      }
     });
 export {surveyImportRouter}
