@@ -3,9 +3,15 @@ import {Layout, Icon} from 'antd';
 import {Nav} from "../Nav/Nav";
 import {Switch, Route} from 'react-router-dom';
 import {Home} from "../Home/Home";
+import {connect} from 'redux-zero/react';
+import {combineActions} from 'redux-zero/utils';
+import {userActions} from "../../redux-zero/actions/user";
 const {Footer, Content} = Layout;
 
-export class App extends React.Component {
+
+const MTP = ({_authed, user}) => ({_authed, user});
+
+class AppClass extends React.Component {
 
   render() {
     return (
@@ -27,3 +33,5 @@ export class App extends React.Component {
     )
   }
 }
+
+export const App = connect(MTP, combineActions(userActions))(AppClass);
