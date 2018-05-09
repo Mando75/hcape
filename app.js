@@ -1,19 +1,25 @@
 const express = require('express');
 const expressValidator = require('express-validator');
-const  logger = require('morgan');
+const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const app = express();
 const path = require('path');
 import {router as apiRoot} from "./routes/api-root";
+import {decode_auth} from "./lib/decode_auth";
+import {authStrategy} from "./routes/auth/strategy";
+const passport = require('passport');
+
+passport.use(authStrategy);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(mongoSanitize());
+app.use(passport.initialize());
 app.use(expressValidator());
 app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
-
+app.use(decode_auth);
 
 app.use('/api', apiRoot);
 
@@ -24,9 +30,9 @@ app.use('/api', apiRoot);
 //   res.redirect('/');
 // });
 //
-// app.use('/', (req, res) => {
-//   res.sendFile(__dirname + '/client/build/index.html');
-// });
+app.use('/', (req, res) => {
+  res.sendFile(__dirname + '/client/build/index.html');
+});
 
 
 // catch 404 and forward to error handler
