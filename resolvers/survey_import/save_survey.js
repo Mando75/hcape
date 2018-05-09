@@ -1,4 +1,4 @@
-import {COLLECTIONS, connectToDb, mongoId} from "../mongodb-connection";
+import {COLLECTIONS, connectToDb} from "../mongodb-connection";
 
 export const save_survey = async (parsedSurvey, _id) => {
   const conn = connectToDb(COLLECTIONS.FACULTY);
