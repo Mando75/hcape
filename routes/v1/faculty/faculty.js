@@ -7,3 +7,5 @@ router.get('/', (req, res, next) => {
     message: 'faculty root'
   });
 });
+
+export {router};
