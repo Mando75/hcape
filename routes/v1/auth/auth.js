@@ -6,9 +6,9 @@ import {login} from "../../../resolvers/auth/login";
 const {check, validationResult} = require('express-validator/check');
 const validRoles = ['student', 'faculty'];
 
-const authRouter = express.Router();
+const router = express.Router();
 
-authRouter.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.json({message: 'Root Authentication Endpoint'})
 });
 
@@ -18,7 +18,7 @@ authRouter.get('/', (req, res) => {
  * Login endpoint.
  * Verifies that the user has submitted a username, pwd, and type.
  */
-authRouter.post('/login',
+router.post('/login',
     check('username').exists(),
     check('pwd').exists(),
     check('type').exists().isIn(validRoles),
@@ -48,7 +48,7 @@ authRouter.post('/login',
  * Used for creating new accounts
  * Requires username, pwd, email, inumber, and type.
  */
-authRouter.post('/create',
+router.post('/create',
     check('username').exists(),
     check('pwd').exists().isLength({min: 8}).custom(pwd => {
       return (
@@ -77,4 +77,4 @@ authRouter.post('/create',
       res.status(opp.status).json(opp);
     });
 
-export {authRouter};
+export {router};
