@@ -1,5 +1,5 @@
 import express from 'express';
-import * as auth from "./helpers";
+import * as auth from "../../../resolvers/v1/auth/helpers/helpers";
 import {createAccount} from "../../../resolvers/v1/auth/connectors/create-account";
 import {login} from "../../../resolvers/v1/auth/connectors/login";
 

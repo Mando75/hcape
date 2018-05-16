@@ -1,3 +1,5 @@
+// TODO move these functions to lib file
+
 const sanitize = require('sanitizer').sanitize;
 
 /**

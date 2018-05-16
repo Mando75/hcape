@@ -7,7 +7,7 @@ const app = express();
 const path = require('path');
 import {router as apiRoot} from "./routes/api-root";
 import {decode_auth} from "./resolvers/v1/auth/helpers/decode_auth";
-import {authStrategy} from "./routes/v1/auth/strategy";
+import {authStrategy} from "./resolvers/v1/auth/helpers/strategy";
 const passport = require('passport');
 
 passport.use(authStrategy);
