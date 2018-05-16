@@ -1,25 +1,13 @@
 import express from 'express';
-import {axiosQualtrics} from "../../lib/qualtrics";
-import {parse_survey_meta, parse_survey_questions} from "../../lib/parse_survey";
-import {fetch_qualtrics_survey_data} from "../../resolvers/survey_import/fetch_survey";
-import {delete_survey} from "../../resolvers/survey_import/delete_survey";
-import {save_survey} from "../../resolvers/survey_import/save_survey";
+import {axiosQualtrics} from "../../../../lib/qualtrics";
+import {parse_survey_meta, parse_survey_questions} from "../../../../lib/parse_survey";
+import {fetch_qualtrics_survey_data} from "../../../../resolvers/survey_import/fetch_survey";
+import {delete_survey} from "../../../../resolvers/survey_import/delete_survey";
+import {save_survey} from "../../../../resolvers/survey_import/save_survey";
 
 const sanitize = require('sanitizer').sanitize;
-const surveyImportRouter = express.Router();
+const router = express.Router();
 
-
-surveyImportRouter.post('/export', (req, res) => {
-
-});
-
-surveyImportRouter.get('/export/status', (req, res) => {
-
-});
-
-surveyImportRouter.get('/:response_id', (req, res) => {
-
-});
 
 /**
  * uses the Qualtrics api to fetch survey data.
@@ -28,7 +16,7 @@ surveyImportRouter.get('/:response_id', (req, res) => {
  * POST: Fetch from Qualtrics, save in Database, send result to user
  * DELETE: Remove from database
  */
-surveyImportRouter.route('/survey/:survey_id')
+router.route('/:survey_id')
 /**
  * GET
  * */
@@ -75,4 +63,4 @@ surveyImportRouter.route('/survey/:survey_id')
         res.status(500).json({msg: "An unexptected error occurred"})
       }
     });
-export {surveyImportRouter}
+export {router}

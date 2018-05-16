@@ -1,21 +1,15 @@
 import express from 'express';
 const router = express.Router();
-import {authRouter} from "./auth/auth";
-import {surveyImportRouter} from "./survey_import/survey_import";
-const passport = require('passport');
+import {router as v1} from './v1/v1';
 
-const auth = passport.authenticate('jwt', {session: false});
 
 router.get('/', (req, res) => {
-  const message = {
+  res.json({
     message: 'api root'
-  };
-
-  res.json(message);
+  });
 });
 
-router.use('/auth', authRouter);
-router.use('/survey_import', auth, surveyImportRouter);
+router.use('/v1', v1);
 
 
 export {router}

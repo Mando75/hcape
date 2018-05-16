@@ -1,5 +1,7 @@
 # HCAPE
-
+## API Docs
+**Currently still in developement**
+[API Docs](https://app.swaggerhub.com/apis/Mando75/hcape/1.0.0-oas3)
 ## Enviromental Variables
 The following are the environmental variables
 needed to run the server application
