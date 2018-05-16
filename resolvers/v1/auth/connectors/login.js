@@ -1,6 +1,6 @@
-import {connectToDb} from "../mongodb-connection";
-import {buildTokenPayload, verifyPwd} from "./lib";
-import {jwtOptions} from "../../routes/v1/auth/strategy";
+import {connectToDb} from "../../../mongodb-connection";
+import {buildTokenPayload, verifyPwd} from "../helpers/lib";
+import {jwtOptions} from "../../../../routes/v1/auth/strategy";
 import * as jwt from 'jsonwebtoken';
 
 /**

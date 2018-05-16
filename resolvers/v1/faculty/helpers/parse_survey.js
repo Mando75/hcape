@@ -1,8 +1,8 @@
-export const parse_survey_meta =
+export const parseSurveyMeta =
     ({id, name, ownerId, creationDate}) =>
         ({id, name, ownerId, creationDate});
 
-export const parse_survey_questions = ({questions}) => {
+export const parseSurveyQuestions = ({questions}) => {
   const keys = Object.keys(questions);
   return keys.map((key) => {
     return {

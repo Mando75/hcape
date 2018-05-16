@@ -1,5 +1,5 @@
-import {connectToDb} from "../mongodb-connection";
-import {hashPwd} from "./lib";
+import {connectToDb} from "../../../mongodb-connection";
+import {hashPwd} from "../helpers/lib";
 
 /**
  * Inserts new user into the database

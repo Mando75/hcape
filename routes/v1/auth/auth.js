@@ -1,7 +1,7 @@
 import express from 'express';
 import * as auth from "./helpers";
-import {createAccount} from "../../../resolvers/auth/create-account";
-import {login} from "../../../resolvers/auth/login";
+import {createAccount} from "../../../resolvers/v1/auth/connectors/create-account";
+import {login} from "../../../resolvers/v1/auth/connectors/login";
 
 const {check, validationResult} = require('express-validator/check');
 const validRoles = ['student', 'faculty'];
