@@ -9,18 +9,6 @@ const sanitize = require('sanitizer').sanitize;
 const router = express.Router();
 
 
-router.post('/export', (req, res) => {
-
-});
-
-router.get('/export/status', (req, res) => {
-
-});
-
-router.get('/:response_id', (req, res) => {
-
-});
-
 /**
  * uses the Qualtrics api to fetch survey data.
  * This data includes the survey name, question data, etc.
@@ -28,7 +16,7 @@ router.get('/:response_id', (req, res) => {
  * POST: Fetch from Qualtrics, save in Database, send result to user
  * DELETE: Remove from database
  */
-router.route('/survey/:survey_id')
+router.route('/:survey_id')
 /**
  * GET
  * */
