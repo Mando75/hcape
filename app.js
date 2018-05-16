@@ -6,7 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const app = express();
 const path = require('path');
 import {router as apiRoot} from "./routes/api-root";
-import {decode_auth} from "./lib/decode_auth";
+import {decode_auth} from "./resolvers/v1/auth/helpers/decode_auth";
 import {authStrategy} from "./routes/v1/auth/strategy";
 const passport = require('passport');
 

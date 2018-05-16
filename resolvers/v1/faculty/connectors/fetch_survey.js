@@ -1,12 +1,12 @@
-import {axiosQualtrics} from "../../lib/qualtrics";
-import {parse_survey_questions, parse_survey_meta} from "../../lib/parse_survey";
+import {axiosQualtrics} from "../../../qualtrics";
+import {parseSurveyMeta, parseSurveyQuestions} from "../helpers/parse_survey";
 
-export const fetch_qualtrics_survey_data = async (survey_id) => {
+export const getQualtricsSurvey = async (survey_id) => {
   try {
     const survey = (await axiosQualtrics.get(`/surveys/${survey_id}`)).data;
     const parsedSurvey = {
-      meta: parse_survey_meta(survey.result),
-      questions: parse_survey_questions(survey.result)
+      meta: parseSurveyMeta(survey.result),
+      questions: parseSurveyQuestions(survey.result)
     };
     return {
       status: 200,

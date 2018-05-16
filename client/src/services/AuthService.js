@@ -5,7 +5,7 @@ export class AuthService extends BaseService {
   static async log_in(username, pwd, type) {
     return axios({
       method: 'post',
-      url: `/api/auth/login`,
+      url: `/api/v1/auth/login`,
       headers: {
         'Content-Type': 'application/json'
       },
@@ -27,7 +27,7 @@ export class AuthService extends BaseService {
   static async create_account({email, inumber, username, pwd, type}) {
     return axios({
       method: 'post',
-      url: '/api/auth/create',
+      url: '/api/v1/auth/create',
       headers: {
         'Content-Type': 'application/json'
       },

@@ -1,9 +1,9 @@
 import express from 'express';
-import {axiosQualtrics} from "../../../../lib/qualtrics";
-import {parse_survey_meta, parse_survey_questions} from "../../../../lib/parse_survey";
-import {fetch_qualtrics_survey_data} from "../../../../resolvers/survey_import/fetch_survey";
-import {delete_survey} from "../../../../resolvers/survey_import/delete_survey";
-import {save_survey} from "../../../../resolvers/survey_import/save_survey";
+import {axiosQualtrics} from "../../../../resolvers/qualtrics";
+import {parseSurveyMeta, parseSurveyQuestions} from "../../../../resolvers/v1/faculty/helpers/parse_survey";
+import {getQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/fetch_survey";
+import {saveQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/save_survey";
+import {deleteQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/delete_survey";
 
 const sanitize = require('sanitizer').sanitize;
 const router = express.Router();
@@ -22,7 +22,7 @@ router.route('/:survey_id')
  * */
     .get(async (req, res) => {
       const survey_id = sanitize(req.params.survey_id);
-      const survey = await fetch_qualtrics_survey_data(survey_id);
+      const survey = await getQualtricsSurvey(survey_id);
       res.status(survey.status).json(survey.data || survey.error);
     })
     /**
@@ -34,11 +34,11 @@ router.route('/:survey_id')
       try {
         const survey = (await axiosQualtrics.get(`/surveys/${survey_id}`)).data;
         const parsedSurvey = {
-          meta: parse_survey_meta(survey.result),
-          questions: parse_survey_questions(survey.result),
+          meta: parseSurveyMeta(survey.result),
+          questions: parseSurveyQuestions(survey.result),
         };
 
-        const resp = await save_survey(parsedSurvey, mongoId(auth._id));
+        const resp = await saveQualtricsSurvey(parsedSurvey, mongoId(auth._id));
         res.status(resp.status).json(resp);
 
       } catch (error) {
@@ -55,7 +55,7 @@ router.route('/:survey_id')
       const survey_id = sanitize(req.params.survey_id).trim();
       const user_id = req.authpayload._id
       try {
-        const updateMsg = await delete_survey(survey_id, mongoId(user_id));
+        const updateMsg = await deleteQualtricsSurvey(survey_id, mongoId(user_id));
         const resp = updateMsg.nModified ? {status: 200, msg: "Update successful"}
             : {status: 400, msg: "No updates were made"};
         res.status(resp.status).json(resp);
