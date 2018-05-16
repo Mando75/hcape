@@ -1,9 +1,9 @@
 import express from 'express';
-import {axiosQualtrics} from "../../lib/qualtrics";
-import {parse_survey_meta, parse_survey_questions} from "../../lib/parse_survey";
-import {fetch_qualtrics_survey_data} from "../../resolvers/survey_import/fetch_survey";
-import {delete_survey} from "../../resolvers/survey_import/delete_survey";
-import {save_survey} from "../../resolvers/survey_import/save_survey";
+import {axiosQualtrics} from "../../../lib/qualtrics";
+import {parse_survey_meta, parse_survey_questions} from "../../../lib/parse_survey";
+import {fetch_qualtrics_survey_data} from "../../../resolvers/survey_import/fetch_survey";
+import {delete_survey} from "../../../resolvers/survey_import/delete_survey";
+import {save_survey} from "../../../resolvers/survey_import/save_survey";
 
 const sanitize = require('sanitizer').sanitize;
 const surveyImportRouter = express.Router();
