@@ -1,7 +1,7 @@
 import express from 'express';
-import * as auth from "../../../resolvers/v1/auth/helpers/helpers";
 import {createAccount} from "../../../resolvers/v1/auth/connectors/create-account";
 import {login} from "../../../resolvers/v1/auth/connectors/login";
+import {extractAccountData, extractLoginData} from "../../../resolvers/v1/auth/helpers/lib";
 
 const {check, validationResult} = require('express-validator/check');
 const validRoles = ['student', 'faculty'];
@@ -35,7 +35,7 @@ router.post('/login',
       }
 
       // extract the data we need to authenticate
-      const loginData = auth.extractLoginData(req.body);
+      const loginData = extractLoginData(req.body);
 
 
       /* The resp object will contain a message, status, and token.
@@ -72,7 +72,7 @@ router.post('/create',
       }
 
       // Extract data needed to create account
-      const accountData = auth.extractAccountData(req.body);
+      const accountData = extractAccountData(req.body);
       const opp = await createAccount(accountData);
       res.status(opp.status).json(opp);
     });
