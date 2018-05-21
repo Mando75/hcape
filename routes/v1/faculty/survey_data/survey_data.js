@@ -55,7 +55,7 @@ router.route('/:survey_id')
       const survey_id = sanitize(req.params.survey_id).trim();
       const user_id = req.authpayload._id
       try {
-        const updateMsg = await deleteQualtricsSurvey(survey_id, mongoId(user_id));
+        const updateMsg = await deleteQualtricsSurvey(nsurvey_id, mongoId(user_id));
         const resp = updateMsg.nModified ? {status: 200, msg: "Update successful"}
             : {status: 400, msg: "No updates were made"};
         res.status(resp.status).json(resp);
