@@ -12,11 +12,11 @@ const sanitzer = require('sanitizer').sanitize;
 router.route('/export/:id')
     .get(async (req, res) => {
         try {
-          const export_id = sanitzer(req.params.id);
+            const export_id = sanitzer(req.params.id);
 
-          // Only return data.result from the Qualtrics API call
-          const qualResp = (await axiosQualtrics.get(`/responseexports/${export_id}`)).data.result;
-          res.json(qualResp);
+            // Only return data.result from the Qualtrics API call
+            const qualResp = (await axiosQualtrics.get(`/responseexports/${export_id}`)).data.result;
+            res.json(qualResp);
         } catch ({response}) {
             console.log(response);
             res.status(response.status).send(response.statusText)
@@ -25,16 +25,16 @@ router.route('/export/:id')
     .post(async (req, res) => {
         const survey_id = sanitzer(req.params.id);
         try {
-          /**
-           * Post request. We want the export in JSON format
-           * Extract only the resulting export id
-           */
-          const exportId = (await axiosQualtrics.post('/responseexports/', {
-            format: 'json',
-            surveyId: survey_id
-          })).data.result.id;
+            /**
+             * Post request. We want the export in JSON format
+             * Extract only the resulting export id
+             */
+            const exportId = (await axiosQualtrics.post('/responseexports/', {
+                format: 'json',
+                surveyId: survey_id
+            })).data.result.id;
 
-          res.json({exportId: exportId});
+            res.json({exportId: exportId});
         } catch ({response}) {
             console.log(response);
             res.status(response.status).send(response.statusText);
@@ -45,11 +45,17 @@ router.route('/export/:id')
 router.route('/export/:export_id/import')
     .get(async (req, res) => {
         const export_id = sanitzer(req.params.export_id);
-        const downloadPath = await downloadExport(export_id);
-        console.log(downloadPath);
-        const filenames = await parseZip(export_id);
-        res.send(downloadPath);
-        console.log(filenames);
+
+        try {
+            const downloadPath = await downloadExport(export_id);
+            const filenames = await parseZip(export_id);
+            console.log(filenames)
+            res.send(downloadPath);
+        } catch (e) {
+            console.log(e);
+            res.status(e.code).send(e.message);
+        }
+        // console.log(filenames);
 
     });
 
