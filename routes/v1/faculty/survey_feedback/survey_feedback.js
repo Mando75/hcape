@@ -1,5 +1,7 @@
 import express from 'express';
 import {axiosQualtrics} from "../../../../resolvers/qualtrics";
+import {parseZip} from "../../../../resolvers/v1/faculty/helpers/unzip";
+import {downloadExport} from "../../../../resolvers/v1/faculty/connectors/download_export";
 
 const router = express.Router();
 const sanitzer = require('sanitizer').sanitize;
@@ -42,8 +44,13 @@ router.route('/export/:id')
 // TODO complete import route
 router.route('/export/:export_id/import')
     .get(async (req, res) => {
-       const export_id = sanitzer(req.params.export_id);
-       res.send(export_id);
+        const export_id = sanitzer(req.params.export_id);
+        const downloadPath = await downloadExport(export_id);
+        console.log(downloadPath);
+        const filenames = await parseZip(export_id);
+        res.send(downloadPath);
+        console.log(filenames);
+
     });
 
 export {router};
