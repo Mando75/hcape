@@ -3,12 +3,14 @@ const expressValidator = require('express-validator');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoSanitize = require('express-mongo-sanitize');
-const app = express();
-const path = require('path');
 import {router as apiRoot} from "./routes/api-root";
 import {decode_auth} from "./resolvers/v1/auth/helpers/decode_auth";
 import {authStrategy} from "./resolvers/v1/auth/helpers/strategy";
+const app = express();
+const path = require('path');
 const passport = require('passport');
+
+global.appRoot = path.resolve(__dirname);
 
 passport.use(authStrategy);
 
