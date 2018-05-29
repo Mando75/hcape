@@ -1,6 +1,6 @@
 import express from 'express';
 import {axiosQualtrics} from "../../../../resolvers/qualtrics";
-import {parseZip} from "../../../../resolvers/v1/faculty/helpers/unzip";
+import {unzipExport} from "../../../../resolvers/v1/faculty/helpers/unzip";
 import {downloadExport} from "../../../../resolvers/v1/faculty/connectors/download_export";
 
 const router = express.Router();
@@ -48,14 +48,12 @@ router.route('/export/:export_id/import')
 
         try {
             const downloadPath = await downloadExport(export_id);
-            const filenames = await parseZip(export_id);
-            console.log(filenames)
+            const filenames = await unzipExport(export_id);
             res.send(downloadPath);
         } catch (e) {
             console.log(e);
             res.status(e.code).send(e.message);
         }
-        // console.log(filenames);
 
     });
 

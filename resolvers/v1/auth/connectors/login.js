@@ -13,7 +13,8 @@ import * as jwt from 'jsonwebtoken';
 export async function login(username, pwd, role) {
   const conn = connectToDb(role);
   const user = await conn.findOne({username: username}, {fields: {pwd: 1}});
-  if (user && await verifyPwd(user.pwd, pwd)) {
+  const validPwd = await verifyPwd(user.pwd, pwd);
+  if (user && validPwd) {
     const payload = buildTokenPayload(user);
     const token = jwt.sign(payload, jwtOptions.secretOrKey, {expiresIn: process.env.AUTH_TOKEN_LIFESPAN});
     const userData = await conn.findOne({_id: user._id}, {fields: userFields});
@@ -24,9 +25,12 @@ export async function login(username, pwd, role) {
       user: userData
     }
   } else {
-    return {
+    return validPwd ? {
       message: "Username not found",
       status: 401
+    } : {
+      message: "Invalid Password",
+        status: 401
     }
   }
 }
