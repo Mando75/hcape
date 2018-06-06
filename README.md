@@ -23,3 +23,7 @@ needed to run the server application
 * AUTH_TOKEN_LIFESPAN
     
     The lifespan of an authentication token issued by the web service
+    
+* MASTER_SURVEY
+
+    The survey_id of the master template survey which all new surveys will be copied from    

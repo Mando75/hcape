@@ -1,9 +1,9 @@
 import express from 'express';
-import {axiosQualtrics} from "../../../../resolvers/qualtrics";
-import {parseSurveyMeta, parseSurveyQuestions} from "../../../../resolvers/v1/faculty/helpers/parse_survey";
-import {getQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/fetch_survey";
-import {saveQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/save_survey";
-import {deleteQualtricsSurvey} from "../../../../resolvers/v1/faculty/connectors/delete_survey";
+import {axiosQualtrics} from "../../../resolvers/qualtrics";
+import {parseSurveyMeta, parseSurveyQuestions} from "../../../resolvers/v1/faculty/helpers/parse_survey";
+import {getQualtricsSurvey} from "../../../resolvers/v1/faculty/connectors/fetch_survey";
+import {saveQualtricsSurvey} from "../../../resolvers/v1/faculty/connectors/save_survey";
+import {deleteQualtricsSurvey} from "../../../resolvers/v1/faculty/connectors/delete_survey";
 
 const sanitize = require('sanitizer').sanitize;
 const router = express.Router();
