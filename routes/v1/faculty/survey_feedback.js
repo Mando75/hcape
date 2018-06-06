@@ -1,7 +1,7 @@
 import express from 'express';
-import {axiosQualtrics} from "../../../../resolvers/qualtrics";
-import {unzipExport} from "../../../../resolvers/v1/faculty/helpers/unzip";
-import {downloadExport} from "../../../../resolvers/v1/faculty/connectors/download_export";
+import {axiosQualtrics} from "../../../resolvers/qualtrics";
+import {unzipExport} from "../../../resolvers/v1/faculty/helpers/unzip";
+import {downloadExport} from "../../../resolvers/v1/faculty/connectors/download_export";
 
 const router = express.Router();
 const sanitzer = require('sanitizer').sanitize;

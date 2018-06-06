@@ -3,7 +3,7 @@ import {router as authRouter} from './auth/auth';
 import {router as adminRouter} from './admins/admins';
 import {router as commonRouter} from './common/common';
 import {router as devRouter} from './developers/developers';
-import {router as facultyRouter} from './faculty/faculty';
+import {router as facultyRouter} from './faculty/faculty-root';
 import {router as studentRouter} from './students/student';
 
 const passport = require('passport');
