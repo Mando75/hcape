@@ -4,7 +4,7 @@ import {unzipExport} from "../../../resolvers/v1/faculty/helpers/unzip";
 import {downloadExport} from "../../../resolvers/v1/faculty/connectors/download_export";
 
 const router = express.Router();
-const sanitzer = require('sanitizer').sanitize;
+const sanitizer = require('sanitizer').sanitize;
 /**
  * Router for creating and fetching export status
  * updates from Qualtrics
@@ -12,7 +12,7 @@ const sanitzer = require('sanitizer').sanitize;
 router.route('/export/:id')
     .get(async (req, res) => {
         try {
-            const export_id = sanitzer(req.params.id);
+            const export_id = sanitizer(req.params.id);
 
             // Only return data.result from the Qualtrics API call
             const qualResp = (await axiosQualtrics.get(`/responseexports/${export_id}`)).data.result;
@@ -23,7 +23,7 @@ router.route('/export/:id')
         }
     })
     .post(async (req, res) => {
-        const survey_id = sanitzer(req.params.id);
+        const survey_id = sanitizer(req.params.id);
         try {
             /**
              * Post request. We want the export in JSON format
