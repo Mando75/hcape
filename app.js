@@ -12,29 +12,28 @@ const passport = require('passport');
 
 global.appRoot = path.resolve(__dirname);
 
+// authentication service
 passport.use(authStrategy);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// sanitize request before parsing
 app.use(mongoSanitize());
+// initialize authentication module
 app.use(passport.initialize());
 app.use(expressValidator());
+// join public directory
 app.use('/static', express.static(path.join(__dirname, 'client/build/static')));
+// Parse authentication token
 app.use(decode_auth);
 
 app.use('/api', apiRoot);
 
-// app.use('/s', (req, res)=> {
-//   res.redirect('/');
+// TODO: Uncomment for client build
+// app.use('/', (req, res) => {
+//   res.sendFile(__dirname + '/client/build/index.html');
 // });
-// app.use('/t', (req, res)=> {
-//   res.redirect('/');
-// });
-//
-app.use('/', (req, res) => {
-  res.sendFile(__dirname + '/client/build/index.html');
-});
 
 
 // catch 404 and forward to error handler

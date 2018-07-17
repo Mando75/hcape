@@ -1,3 +1,9 @@
+/**
+ * @author Bryan Muller
+ * This file contains various helper functions
+ * used for the authentication module
+ */
+
 import bcrypt from 'bcrypt';
 const sanitize = require('sanitizer').sanitize;
 
@@ -34,7 +40,8 @@ export async function hashPwd(pwd) {
 
 /**
  * Extracts login params from req body.
- * If one or more of the keys is undefined
+ * If one or more of the keys is undefined,
+ * it returns null
  * @param body
  * @returns {*}
  */
@@ -49,8 +56,10 @@ export const extractLoginData = (body) => {
     return null;
   }
 };
+
 /**
  * Extracts data needed for creating account
+ * from the request body
  * @param body
  * @returns {*}
  */

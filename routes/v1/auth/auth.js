@@ -1,3 +1,6 @@
+/**
+ * @author Bryan Muller
+ */
 import express from 'express';
 import {createAccount} from "../../../resolvers/v1/auth/connectors/create-account";
 import {login} from "../../../resolvers/v1/auth/connectors/login";
@@ -8,11 +11,12 @@ const validRoles = ['student', 'faculty'];
 
 const router = express.Router();
 
+/**
+ * Root authentication endpoint
+ */
 router.get('/', (req, res) => {
   res.json({message: 'Root Authentication Endpoint'})
 });
-
-
 
 /**
  * Login endpoint.
@@ -36,7 +40,6 @@ router.post('/login',
 
       // extract the data we need to authenticate
       const loginData = extractLoginData(req.body);
-
 
       /* The resp object will contain a message, status, and token.
          If the login fails, the resp will only contain a message and status */

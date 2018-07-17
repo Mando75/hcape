@@ -1,5 +1,15 @@
+/**
+ * @author Bryan Muller
+ * This file describes the JWT authentication strategy
+ * for the application
+ */
 import {ExtractJwt, Strategy} from 'passport-jwt';
 
+/**
+ * Describes the JSON web token options being used
+ * by our JWT strategy
+ * @type {{jwtFromRequest: *, secretOrKey: *}}
+ */
 export const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('auth_token'),
   secretOrKey: process.env.TOKEN_SECRET
