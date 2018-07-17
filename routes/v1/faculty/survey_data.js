@@ -1,3 +1,6 @@
+/**
+ * @author Bryan Muller
+ */
 import express from 'express';
 import {axiosQualtrics} from "../../../resolvers/qualtrics";
 import {parseSurveyMeta, parseSurveyQuestions} from "../../../resolvers/v1/faculty/helpers/parse_survey";
@@ -8,7 +11,6 @@ import {deleteQualtricsSurvey} from "../../../resolvers/v1/faculty/connectors/de
 const sanitize = require('sanitizer').sanitize;
 const router = express.Router();
 
-
 /**
  * uses the Qualtrics api to fetch survey data.
  * This data includes the survey name, question data, etc.
@@ -17,9 +19,9 @@ const router = express.Router();
  * DELETE: Remove from database
  */
 router.route('/:survey_id')
-/**
- * GET
- * */
+    /**
+     * GET
+     * */
     .get(async (req, res) => {
       const survey_id = sanitize(req.params.survey_id);
       const survey = await getQualtricsSurvey(survey_id);
@@ -37,12 +39,9 @@ router.route('/:survey_id')
           meta: parseSurveyMeta(survey.result),
           questions: parseSurveyQuestions(survey.result),
         };
-
         const resp = await saveQualtricsSurvey(parsedSurvey, mongoId(auth._id));
         res.status(resp.status).json(resp);
-
       } catch (error) {
-
         console.log(error.response);
         res.status(error.response.status).send(error.response.statusText);
       }

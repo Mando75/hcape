@@ -1,3 +1,6 @@
+/**
+ * @author Bryan Muller
+ */
 import express from 'express';
 import {router as authRouter} from './auth/auth';
 import {router as adminRouter} from './admins/admins';
@@ -10,12 +13,16 @@ const passport = require('passport');
 const auth = passport.authenticate('jwt', {session: false});
 const router = express.Router();
 
+/**
+ * Api v1 root path
+ */
 router.get('/', (req, res) => {
   res.json({
     message: 'api v1 root'
   });
 });
 
+// Valid api branches
 router.use('/auth', authRouter);
 router.use('/admins', auth, adminRouter);
 router.use('/common', auth, commonRouter);

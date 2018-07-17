@@ -1,3 +1,10 @@
+/**
+ * @author Bryan Muller
+ *
+ * This file contains functions to create new user accounts
+ * in MongoDB
+ */
+
 import {connectToDb} from "../../../mongodb-connection";
 import {hashPwd} from "../helpers/lib";
 
@@ -11,7 +18,9 @@ export async function createAccount(data) {
   const conn = connectToDb(data.type);
   try {
     const resp = (await conn.insertOne(query)).ops[0];
+    // Do not send the password back to the user
     delete resp.pwd;
+    // status ok
     resp.status = 200;
     return resp;
   } catch(e) {
